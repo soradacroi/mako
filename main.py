@@ -1,4 +1,5 @@
 import tkinter as tk
+import random
 
 root = tk.Tk()
 
@@ -6,7 +7,7 @@ root.overrideredirect(True)
 root.attributes("-topmost", True)
 root.config(bg="black")
 root.wm_attributes("-transparentcolor", "black")
-root.geometry("200x200+500+500")
+
 
 exit_menu = tk.Menu(root, tearoff=0)
 exit_menu.add_command(label="Exit", command=root.destroy)
@@ -24,9 +25,34 @@ root.bind("<Button-3>", popup)
 pet_image = tk.PhotoImage(file="idle.png")
 
 label = tk.Label(root, image=pet_image, bg="black", bd=0)
-label.pack()
+label.pack(side="bottom")
 
 label.image = pet_image  # pyright: ignore
 
+speech_bubble = tk.Label(
+    root,
+    text="",
+    fg="black",
+    bg="white",
+    font=("Arial", 10),
+    wraplength=150,
+    justify="center",
+    borderwidth=2,
+    relief="ridge",
+)
+speech_bubble.pack(side="top", fill="x", padx=10, pady=5)
+speech_bubble.pack_forget()
+
+
+def say_something():
+    lines = ["did you drink water yet?", "dont stare at the screen for too long"]
+
+    speech_bubble.config(text=random.choice(lines))
+    speech_bubble.pack(side="top", fill="x", padx=10, pady=5)
+
+    root.after(5000, lambda: speech_bubble.pack_forget())
+
+
+root.bind("<Button-1>", lambda e: say_something())  # talking woking
 
 root.mainloop()
