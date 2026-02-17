@@ -8,6 +8,17 @@ root.attributes("-topmost", True)
 root.config(bg="black")
 root.wm_attributes("-transparentcolor", "black")
 
+root.update()
+
+screen_w = root.winfo_screenwidth()
+screen_h = root.winfo_screenheight()
+win_w = root.winfo_width()
+win_h = root.winfo_height()
+
+x = screen_w - win_w - 50
+y = screen_h - win_h - 50
+
+root.geometry(f"+{x}+{y}")
 
 exit_menu = tk.Menu(root, tearoff=0)
 exit_menu.add_command(label="Exit", command=root.destroy)
@@ -50,6 +61,13 @@ def say_something():
     speech_bubble.config(text=random.choice(lines))
     speech_bubble.pack(side="top", fill="x", padx=10, pady=5)
 
+    root.update()
+    new_h = root.winfo_height()
+    screen_h = root.winfo_screenheight()
+
+    x = root.winfo_x()
+    y = screen_h - new_h - 50
+    root.geometry(f"+{x}+{y}")
     root.after(5000, lambda: speech_bubble.pack_forget())
 
 
